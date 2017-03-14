@@ -14,6 +14,6 @@
 ![alt text](https://github.com/arddhanaza/utstokobuku/blob/16dc224ad583b0a36b2140f1194e0d8b43710004/10.PNG)
 ![alt text](https://github.com/arddhanaza/utstokobuku/blob/16dc224ad583b0a36b2140f1194e0d8b43710004/11.PNG)
 ![alt text](https://github.com/arddhanaza/utstokobuku/blob/16dc224ad583b0a36b2140f1194e0d8b43710004/12.PNG)
-![alt text](https://github.com/arddhanaza/utstokobuku/blob/16dc224ad583b0a36b2140f1194e0d8b43710004/13.PNG)
+![alt text](https://github.com/arddhanaza/utstokobuku/blob/16dc224ad583b0a36b2140f1194e0d8b43710004/13.png)
 
 
