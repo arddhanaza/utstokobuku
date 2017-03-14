@@ -475,7 +475,7 @@ public class frmMain extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(this, "Data Gagal Dihapus","Gagal",JOptionPane.WARNING_MESSAGE);
             }
         }else{
-            JOptionPane.showMessageDialog(this,"Pilih Baris Data Terlebih Dahulu","Error",JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(this,"Pilih Baris Data Terlebih Dahulu","Error",JOptionPane.WARNING_MESSAGE);    
         }
     }//GEN-LAST:event_DeleteActionPerformed
 
