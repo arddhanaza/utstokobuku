@@ -30,6 +30,7 @@ public class frmMain extends javax.swing.JFrame {
     String nol_jam;
     String nol_menit;
     String nol_detik;
+    String admin1;
     
     
     
@@ -42,7 +43,8 @@ public class frmMain extends javax.swing.JFrame {
         initComponents();
         SetJam();
         setTanggal();
-        dataSelect();
+        //dataSelect();
+        
     }
 
     /**
@@ -86,8 +88,15 @@ public class frmMain extends javax.swing.JFrame {
         Clear = new javax.swing.JButton();
         Refresh = new javax.swing.JButton();
         Print = new javax.swing.JButton();
+        tfsearch = new javax.swing.JTextField();
+        Search = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
+            }
+        });
 
         jPanel1.setBackground(new java.awt.Color(255, 0, 0));
 
@@ -133,6 +142,7 @@ public class frmMain extends javax.swing.JFrame {
         jLabel1.setText("NAMA KASIR");
 
         tKasir.setFont(new java.awt.Font("Arial", 0, 10)); // NOI18N
+        tKasir.setText("admin");
         tKasir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 tKasirActionPerformed(evt);
@@ -298,7 +308,7 @@ public class frmMain extends javax.swing.JFrame {
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 265, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(30, Short.MAX_VALUE))
         );
 
         jPanel4.setBackground(new java.awt.Color(0, 255, 51));
@@ -338,6 +348,13 @@ public class frmMain extends javax.swing.JFrame {
             }
         });
 
+        Search.setText("Search");
+        Search.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                SearchActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
@@ -353,18 +370,26 @@ public class frmMain extends javax.swing.JFrame {
                 .addComponent(Refresh, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(Print, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(258, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(tfsearch, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(Search, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
-                .addContainerGap(30, Short.MAX_VALUE)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(Save, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(Delete, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(Clear, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(Refresh, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(Print, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap()
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(Search, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(tfsearch, javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(Save, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(Delete, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(Clear, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(Refresh, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(Print, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addGap(28, 28, 28))
         );
 
@@ -548,6 +573,35 @@ try{
         
     }//GEN-LAST:event_tTotHargaActionPerformed
 
+    private void SearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SearchActionPerformed
+        String kolom[] = {"id_barang","nama_barang","harga_barang"};
+        DefaultTableModel dtm = new DefaultTableModel(null,kolom);
+        String id = tfsearch.getText().toString();
+        String SQL = "Select * from tb_barang where id_barang= '"+id+"'";
+        
+        ResultSet rs = KoneksiDB.executeQuery(SQL);
+        
+        try{
+            while(rs.next()){
+                String id_barang = rs.getString(1);
+                String nama_barang = rs.getString(2);
+                String harga_barang = rs.getString(3);
+                
+                String data[] = {id_barang,nama_barang,harga_barang};
+                dtm.addRow(data);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(frmMain.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        jTableBuku.setModel(dtm);
+    }//GEN-LAST:event_SearchActionPerformed
+
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+        String admin1= LoginFrm.user;
+        tKasir.setText(admin1);
+        
+    }//GEN-LAST:event_formWindowOpened
+
     /**
      * @param args the command line arguments
      */
@@ -589,6 +643,7 @@ try{
     private javax.swing.JButton Print;
     private javax.swing.JButton Refresh;
     private javax.swing.JButton Save;
+    private javax.swing.JButton Search;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -615,6 +670,7 @@ try{
     private com.toedter.calendar.JDateChooser tTanggal;
     private javax.swing.JTextField tTotHarga;
     private javax.swing.JLabel tanggal;
+    private javax.swing.JTextField tfsearch;
     private javax.swing.JLabel waktu;
     // End of variables declaration//GEN-END:variables
 
